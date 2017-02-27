@@ -18,6 +18,25 @@ module.exports = {
   sort(cards /*, ranking */) {
     // Given a deck, sorts a randomized deck based on the suit ranking passed in.
     if (cards.length !== 52) throw new RangeError({ message: 'Deck must contain 52 cards' });
+
+    return cards;
+
+  },
+
+  compare(a, b, suitRank) {
+
+    const face = {"J": 11, "Q": 12, "K": 13, "A": 14};
+
+    //evaluates the suit value based on the ranking order passed in (as an array)
+    let modA = suitRank.indexOf(a.suit) * 13;
+    let modB = suitRank.indexOf(b.suit) * 13;
+
+    // converts face cards to numerical value, otherwise assigns value
+    let valA = (typeof a.value === 'string') ? face[a.value] : a.value;
+    let valB = (typeof b.value === 'string') ? face[b.value] : b.value;
+
+    return (valA + modA) > (valB + modB);
+
   }
 
 };
