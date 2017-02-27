@@ -38,4 +38,21 @@ describe('Shuffling a deck of cards', () => {
 
   });
 
+  it('modifies the deck each time it is sorted', () => {
+
+    // creates 4 new decks, shuffling each one
+    const setA = sorted.slice();
+    deck.shuffle(setA);
+    const setB = setA.slice();
+    deck.shuffle(setB);
+    const setC = setB.slice();
+    deck.shuffle(setC);
+    const setD = setC.slice();
+    deck.shuffle(setD);
+    assert.notDeepEqual(setA, setB);
+    assert.notDeepEqual(setB, setC);
+    assert.notDeepEqual(setC, setD);
+    assert.notDeepEqual(setD, setA);
+
+  });
 });
