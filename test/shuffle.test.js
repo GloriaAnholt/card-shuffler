@@ -55,4 +55,27 @@ describe('Shuffling a deck of cards', () => {
     assert.notDeepEqual(setD, setA);
 
   });
+
+  it('does not duplicate card values', () => {
+
+    const shuffled = deck.shuffle(cards);
+    const cardDict = {};
+    let cardName = null;
+    let count = 0;
+
+    for (let i = 0; i < cards.length; i++) {
+      cardName = shuffled[i].value + shuffled[i].suit;
+      if ( cardDict[cardName] ) {
+        // if the card is already in the dict, shuffle duplicated a card
+        assert.isOk(false, 'if you reached this fail, you have a duplicate card');
+      } else {
+        // otherwise, put it in the map
+        cardDict[cardName] = true;
+        count++;
+      }
+    }
+    assert.equal(count, 52, 'there should be 52 unique cards in the deck still');
+  });
+
+
 });
