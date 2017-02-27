@@ -27,8 +27,8 @@ module.exports = {
       let left = cards.slice(0, mid); // excludes mid-point
       let right = cards.slice(mid);   // slices to end of array
 
-      this.mergesort(left, ranking);
-      this.mergesort(right, ranking);
+      this.sort(left, ranking);
+      this.sort(right, ranking);
 
       let l = 0, r = 0, i = 0;
 

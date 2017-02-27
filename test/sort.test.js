@@ -31,7 +31,7 @@ describe('Sorts a deck of cards', () => {
   it('sorts a shuffled deck back to the original sorted configuration', () => {
 
     assert.notDeepEqual(sorted, deck.shuffle(cards));
-    deck.mergesort(cards, ['clubs', 'diamonds', 'hearts', 'spades']);
+    deck.sort(cards, ['clubs', 'diamonds', 'hearts', 'spades']);
     assert.deepEqual(sorted, cards);
 
   });
