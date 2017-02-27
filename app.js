@@ -7,17 +7,58 @@ module.exports = {
     // Given a deck of 52 cards, returns a randomized deck in O(n) passes. Shuffles in place.
     if (cards.length !== 52) throw new RangeError('Deck must contain 52 cards');
 
-    return cards.map((cur, i, deck) => {
+    for (let i = 0; i < cards.length; i++) {
       let j = Math.floor(52 * Math.random());
-      deck[i] = deck[j];
-      deck[j] = cur;
-    });
+      let swap = cards[j];
+      cards[j] = cards[i];
+      cards[i] = swap;
+    }
+
+    return cards;
 
   },
 
-  sort(cards /*, ranking */) {
-    // Given a deck, sorts a randomized deck based on the suit ranking passed in.
-    if (cards.length !== 52) throw new RangeError({ message: 'Deck must contain 52 cards' });
+  sort(cards, ranking) {
+    // Given a deck of cards, sort it into order based on the suit ranking passed in
+
+    // If the array is longer than one, recursively call merge until at len of one
+    if (cards.length > 1) {
+      let mid = Math.floor(cards.length / 2);
+      let left = cards.slice(0, mid); // excludes mid-point
+      let right = cards.slice(mid);   // slices to end of array
+
+      this.mergesort(left, ranking);
+      this.mergesort(right, ranking);
+
+      let l = 0, r = 0, i = 0;
+
+      while ( l < left.length && r < right.length ) {
+        // If the left is smaller, add it to the list
+        if (this.compare(right[r], left[l], ranking)) {
+          cards[i] = left[l];
+          l++;
+        // otherwise right is smaller, add it to list
+        } else {
+          cards[i] = right[r];
+          r++;
+        } // increment counter
+        i++;
+      }
+
+      // If there's anything remaining in the left list, add it first
+      while ( l < left.length ) {
+        cards[i] = left[l];
+        l++;
+        i++;
+      }
+
+      // If there's anything remaining in the right list, add it last
+      while ( r < right.length ) {
+        cards[i] = right[r];
+        r++;
+        i++;
+      }
+    }
 
     return cards;
 

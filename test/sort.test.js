@@ -1,11 +1,11 @@
 const assert = require('chai').assert;
-// const sorted = require('../cards');
+const sorted = require('../cards');
 const deck = require('../app');
 
 describe('Sorts a deck of cards', () => {
 
   // create a deep copy of the cards to shuffle, preserve the sorted deck for comparison
-  // const cards = sorted.slice();
+  const cards = sorted.slice();
 
   it('evaluates the value of cards based on suit order', () => {
     // the compare function takes two card objects and an array for suit values and returns
@@ -25,6 +25,14 @@ describe('Sorts a deck of cards', () => {
 
     assert.isTrue(deck.compare(trump, clubs, bridgeRanking));
     assert.isTrue(deck.compare(trump, diamonds, chineseRanking));
+
+  });
+
+  it('sorts a shuffled deck back to the original sorted configuration', () => {
+
+    assert.notDeepEqual(sorted, deck.shuffle(cards));
+    deck.mergesort(cards, ['clubs', 'diamonds', 'hearts', 'spades']);
+    assert.deepEqual(sorted, cards);
 
   });
 
