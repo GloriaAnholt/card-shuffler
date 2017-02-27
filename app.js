@@ -5,7 +5,7 @@ module.exports = {
 
   shuffle(cards) {
     // Given a deck of 52 cards, returns a randomized deck in O(n) passes. Shuffles in place.
-    if (cards.length !== 52) throw new RangeError({ message: 'Deck must contain 52 cards' });
+    if (cards.length !== 52) throw new RangeError('Deck must contain 52 cards');
 
     for (let i = 0; i < cards.length; i++) {
       let j = Math.floor(52 * Math.random());
