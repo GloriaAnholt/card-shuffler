@@ -1,6 +1,6 @@
 
 
-const deck = [
+const cards = [
 
   { value: 2, suit: 'clubs'},
   { value: 3, suit: 'clubs'},
@@ -61,4 +61,4 @@ const deck = [
 ];
 
 
-module.exports = deck;
+module.exports = cards;
