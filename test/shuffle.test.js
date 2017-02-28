@@ -8,6 +8,24 @@ describe('Shuffling a deck of cards', () => {
   // create a deep copy of the cards to shuffle, preserve the sorted deck for comparison
   const cards = sorted.slice();
 
+  function duplicateDetector(cards) {
+    const cardDict = {};
+    let cardName = null;
+
+    for (let i = 0; i < cards.length; i++) {
+      cardName = cards[i].value + cards[i].suit;
+      if ( cardDict[cardName] ) {
+        // if the card is already in the dict, shuffle function duplicated a card
+        return false;
+      } else {
+        // otherwise, put it in the map
+        cardDict[cardName] = true;
+      }
+    }
+    return true;
+  }
+
+
   it('throws an error if the wrong number of cards are passed in', () => {
     // assert.throw takes a not-invoked function as its first parameter, but we need to
     // call shuffle passing an insufficient deck. Wrapped cards in an anonymous function.
@@ -39,6 +57,19 @@ describe('Shuffling a deck of cards', () => {
 
   });
 
+  it('does not overwrite cards to undefined when shuffled', () => {
+
+    const shuffled = deck.shuffle(cards);
+    // Check first and last cards in case of off-by one errors
+    assert.isDefined(shuffled[0], 'cards should still be defined');
+    assert.isOk(shuffled[0].value, 'cards should still have values');
+    assert.isOk(shuffled[0].suit, 'cards should still have suits');
+    assert.isDefined(shuffled[51], 'cards should still be defined');
+    assert.isOk(shuffled[51].value, 'cards should still have values');
+    assert.isOk(shuffled[51].suit, 'cards should still have suits');
+
+  });
+
   it('modifies the deck each time it is sorted', () => {
 
     // creates 4 new decks, shuffling each one
@@ -59,46 +90,16 @@ describe('Shuffling a deck of cards', () => {
 
   it('does not duplicate card values by shuffling the cards', () => {
 
-    const shuffled = deck.shuffle(cards);
-    const cardDict = {};
-    let cardName = null;
-    let count = 0;
+    assert.isTrue(duplicateDetector(deck.shuffle(cards)),
+      'if you reached this fail, you have a duplicate card');
 
-    for (let i = 0; i < cards.length; i++) {
-      cardName = shuffled[i].value + shuffled[i].suit;
-      if ( cardDict[cardName] ) {
-        // if the card is already in the dict, shuffle duplicated a card
-        assert.isOk(false, 'if you reached this fail, you have a duplicate card');
-      } else {
-        // otherwise, put it in the map
-        cardDict[cardName] = true;
-        count++;
-      }
-    }
-    assert.equal(count, 52, 'there should be 52 unique cards in the deck still');
   });
-
 
   it('tests if this can catch an intentionally duplicated value', () => {
 
-    const bad = deck.shuffle(badDeck);
-    const duplicate = '2clubs';
-    const cardDict = {};
-    let cardName = null;
-    let count = 0;
+    assert.isFalse(duplicateDetector(deck.shuffle(badDeck)),
+      'this deck has a duplicate card');
 
-    for (let i = 0; i < cards.length; i++) {
-      cardName = bad[i].value + bad[i].suit;
-      if ( cardDict[cardName] ) {
-        // if the card is already in the dict, shuffle duplicated a card
-        assert.equal(cardName, duplicate, 'if you didnt reach this, you missed the duplicated card');
-      } else {
-        // otherwise, put it in the map
-        cardDict[cardName] = true;
-        count++;
-      }
-    }
-    assert.equal(count, 51, 'there should be 51 unique cards in the deck still');
   });
 
 
