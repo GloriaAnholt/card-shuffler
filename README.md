@@ -7,7 +7,8 @@ To use, import app.js into your project, imported in the tests as 'deck'.
 const deck = require('./app.js');
 ```
 
-** Methods **
+**Methods**
+
 The deck has three available methods:
 
 1. deck.shuffle(cards) -- Pass an array of 52 card objects. Loops over the array of cards once, randomly swapping the current index and a random card in the deck. Note: according to wikipedia, this method does have some built-in bias, but I'm considering (52^52) / 52! (or about 2.1160478e+21) to be acceptable margins of error. Returns the deck of cards.
@@ -16,12 +17,14 @@ The deck has three available methods:
 
 3. deck.compare(cardA, cardB, ranking) -- Pass two individual card objects and an array with the relative ranking of suits. The suit is weighted from first as least to last as most, which is represented by a multiple of the index value in the array. Returns a boolean for (cardA > cardB)
 
-** Cards **
+**Cards**
+
 Cards are represented as JavaScript objects with a "value" and "suit" property, for example:
 { "value":"A", "suit":"spades" }
 
 'Face' value cards (Jack, Queen, King, Ace) are represented with a string for the letter, rather than a numerical value, in the test data. It would be a quick refactor of the compare function to change to purely numerical values.
 
-** Tests **
+**Tests**
+
 Tests are run using Mocha with Chai's assertion library. Run with either 'mocha' or npm test.
 Files are linted using eslint.
