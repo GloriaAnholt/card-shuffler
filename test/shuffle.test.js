@@ -1,6 +1,7 @@
 const assert = require('chai').assert;
 const sorted = require('../cards');
 const deck = require('../app');
+const badDeck = require('./bad-deck');
 
 describe('Shuffling a deck of cards', () => {
 
@@ -56,7 +57,7 @@ describe('Shuffling a deck of cards', () => {
 
   });
 
-  it('does not duplicate card values', () => {
+  it('does not duplicate card values by shuffling the cards', () => {
 
     const shuffled = deck.shuffle(cards);
     const cardDict = {};
@@ -75,6 +76,29 @@ describe('Shuffling a deck of cards', () => {
       }
     }
     assert.equal(count, 52, 'there should be 52 unique cards in the deck still');
+  });
+
+
+  it('tests if this can catch an intentionally duplicated value', () => {
+
+    const bad = deck.shuffle(badDeck);
+    const duplicate = '2clubs';
+    const cardDict = {};
+    let cardName = null;
+    let count = 0;
+
+    for (let i = 0; i < cards.length; i++) {
+      cardName = bad[i].value + bad[i].suit;
+      if ( cardDict[cardName] ) {
+        // if the card is already in the dict, shuffle duplicated a card
+        assert.equal(cardName, duplicate, 'if you didnt reach this, you missed the duplicated card');
+      } else {
+        // otherwise, put it in the map
+        cardDict[cardName] = true;
+        count++;
+      }
+    }
+    assert.equal(count, 51, 'there should be 51 unique cards in the deck still');
   });
 
 
