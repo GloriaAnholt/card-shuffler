@@ -33,7 +33,7 @@ describe('Shuffling a deck of cards', () => {
 
   });
 
-  it('returns a deck different from the starting deck', () => {
+  it('returns a deck different from the starting deck when shuffled', () => {
 
     assert.notDeepEqual(sorted, deck.shuffle(cards));
 
